@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testleap1
+  labels:
+    some-label: testleap1
+spec:
+  containers:
+  - name: jnlp
+    image: jenkinsaks01acr.azurecr.io/jnlp:latest
+    args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
+    resources:
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+
+  - name: leap
+    image: jenkinsaks01acr.azurecr.io/forge/leap_15_3:latest
+    tty: true
+    command:
+    - cat
+    resources:
+      limits:
+        memory: "1Gi"
+        cpu: "1"
+      requests:
+        memory: "512Mi"
+        cpu: "500m"

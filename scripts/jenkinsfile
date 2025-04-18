@@ -1,0 +1,26 @@
+podTemplate(yaml: '''
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: testleap1
+      labels: 
+        some-label: testleap1
+    spec:
+      containers:
+      - name: jnlp
+        image: forgetestaksacr.azurecr.io/jnlp:latest
+        args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
+      - name: leap
+        image: testaksacr.azurecr.io/forge/leap_15_3-forge-viac-8386_fips:latest
+        tty: true
+        command:
+        - cat
+    ''') {
+    node(POD_LABEL) {
+      container('leap') {
+        echo POD_CONTAINER // displays 'busybox'
+        sh 'hostname'
+        echo 'Hello world!! Kuberenetes cluster seems to be working'
+      }
+    }
+}

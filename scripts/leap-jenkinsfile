@@ -1,0 +1,31 @@
+podTemplate(yaml: '''
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: testleap1
+      labels:
+        some-label: testleap1
+    spec:
+      containers:
+      - name: jnlp
+        image: forgetestaksacr.azurecr.io/jnlp:latest
+        args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
+      - name: leap
+        image: forgetestaksacr.azurecr.io/forge/leap_fips:latest
+        tty: true
+    ''') {
+    node(POD_LABEL) {
+        container('leap') {
+            echo POD_CONTAINER // displays 'leap'
+            sh 'hostname'
+            echo 'Hello world!! Kubernetes cluster seems to be working'
+            
+            // Clone the GitHub repository and execute the Groovy script
+            sh """
+                git clone https://github.com/yourusername/pipeline-library.git
+                cd pipeline-library
+                groovy /path/to/pipeline-library/your-script.groovy
+            """
+        }
+    }
+}

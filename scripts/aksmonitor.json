@@ -1,0 +1,130 @@
+{
+    "title": "AKS Cluster Enhanced Dashboard",
+    "description": "Monitoring for AKS cluster: CPU, Memory, Disk, Errors, Jobs",
+    "widgets": [
+      {
+        "definition": {
+          "title": "CPU Usage by Pod",
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:kubernetes.cpu.usage.total{cluster_name:TestAKSMANU} by {pod_name}",
+              "display_type": "line"
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "title": "Memory Usage by Pod",
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:kubernetes.memory.usage_bytes{cluster_name:TestAKSMANU} by {pod_name}",
+              "display_type": "line"
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "title": "Disk Usage by Pod",
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:kubernetes.filesystem.usage{cluster_name:TestAKSMANU} by {pod_name}",
+              "display_type": "line"
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "title": "Container Restarts by Pod",
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "sum:kubernetes.containers.restarts{cluster_name:TestAKSMANU} by {pod_name}",
+              "display_type": "bar"
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "title": "Running Pods by Namespace",
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "count:kubernetes.pods.running{cluster_name:TestAKSMANU} by {namespace}",
+              "display_type": "area"
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "title": "Network I/O (Receive)",
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:kubernetes.network.rx_bytes{cluster_name:TestAKSMANU}",
+              "display_type": "line"
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "title": "Network I/O (Transmit)",
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:kubernetes.network.tx_bytes{cluster_name:TestAKSMANU}",
+              "display_type": "line"
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "title": "Error Logs - All Containers",
+          "type": "log_stream",
+          "requests": [
+            {
+              "indexes": ["main"],
+              "query": "service:kubernetes source:kubernetes status:error cluster_name:TestAKSMANU"
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "title": "loadgen-job CPU Usage",
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:kubernetes.cpu.usage.total{job:loadgen-job,cluster_name:TestAKSMANU}",
+              "display_type": "line"
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "title": "loadgen-job Network In",
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:kubernetes.network.rx_bytes{job:loadgen-job,cluster_name:TestAKSMANU}",
+              "display_type": "line"
+            }
+          ]
+        }
+      }
+    ],
+    "layout_type": "ordered",
+    "is_read_only": false,
+    "notify_list": []
+  }
+  

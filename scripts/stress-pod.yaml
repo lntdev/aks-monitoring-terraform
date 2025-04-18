@@ -1,0 +1,26 @@
+# stress-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: stress-pod
+  labels:
+    app: stress
+spec:
+  containers:
+  - name: stress
+    image: progrium/stress
+    args:
+    - "--cpu"
+    - "2"
+    - "--io"
+    - "1"
+    - "--vm"
+    - "1"
+    - "--vm-bytes"
+    - "128M"
+    - "--timeout"
+    - "600s"
+    resources:
+      limits:
+        cpu: "500m"
+        memory: "256Mi"
